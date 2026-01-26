@@ -81,7 +81,7 @@ const INITIAL_AGENTS = [
     // --- Personas ---
     {
         id: 'genz_m',
-        name: 'Z세대 남자',
+        name: 'Z세대 여자',
         role: 'Target User',
         category: 'Persona',
         iconName: 'Gamepad2',
@@ -349,7 +349,7 @@ export default function AI_Board_Simulator() {
     const handleSendMessage = async (e) => {
         e.preventDefault();
         if ((!inputText.trim() && files.length === 0) || isProcessing) return;
-        // if (!apiKey) return setShowSettings(true); // Uses server-side key if missing
+        if (!apiKey) return setShowSettings(true);
 
         const curText = inputText;
         const curFiles = [...files];
@@ -437,8 +437,8 @@ export default function AI_Board_Simulator() {
 
     return (
         <div className="flex h-screen bg-slate-50 font-sans text-slate-900 overflow-hidden">
-            {/* Sidebar (Desktop) */}
-            <div className="w-80 bg-white border-r border-slate-200 flex flex-col z-20 shrink-0 hidden md:flex">
+            {/* Sidebar (Desktop) - Add no-print */}
+            <div className="w-80 bg-white border-r border-slate-200 flex flex-col z-20 shrink-0 hidden md:flex no-print">
                 <div className="p-6 border-b border-slate-100 flex flex-col gap-4">
                     <Link href="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-600 font-bold text-xs"><ArrowLeft size={14} /> 메인으로</Link>
                     <div className="flex justify-between items-center">
@@ -476,9 +476,9 @@ export default function AI_Board_Simulator() {
                 </div>
             </div>
 
-            {/* Mobile Sidebar Overlay */}
+            {/* Mobile Sidebar Overlay - Add no-print */}
             {showMobileMenu && (
-                <div className="fixed inset-0 z-50 flex">
+                <div className="fixed inset-0 z-50 flex no-print">
                     <div className="fixed inset-0 bg-black/50" onClick={() => setShowMobileMenu(false)}></div>
                     <div className="relative w-80 bg-white shadow-2xl flex flex-col h-full animate-in slide-in-from-left duration-300">
                         <div className="p-6 border-b border-slate-100 flex justify-between items-center">
@@ -510,6 +510,7 @@ export default function AI_Board_Simulator() {
                                                         <div className="text-sm font-bold text-slate-700">{agent.name}</div>
                                                         <div className="text-[10px] text-slate-500 truncate w-24">{agent.role}</div>
                                                     </div>
+                                                    <button onClick={() => setEditingAgent({ ...agent })} className="p-1.5 text-slate-300 hover:text-indigo-500"><Pencil size={12} /></button>
                                                     <button onClick={() => handleSoloChat(agent.id)} className={`p-1.5 rounded-full ${isSolo ? 'bg-white text-orange-600' : 'text-slate-300 hover:text-orange-600'}`}><MessageSquare size={12} fill={isSolo ? "currentColor" : "none"} /></button>
                                                 </div>
                                             )
@@ -524,7 +525,7 @@ export default function AI_Board_Simulator() {
 
             {/* Main Chat */}
             <div className="flex-1 flex flex-col h-full bg-slate-100 relative">
-                <div className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-6 shadow-sm z-10">
+                <div className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-6 shadow-sm z-10 no-print">
                     <div className="font-bold text-slate-700 flex items-center gap-2">
                         {/* Mobile Menu Button */}
                         <button onClick={() => setShowMobileMenu(true)} className="md:hidden mr-2 p-2 bg-slate-100 rounded-lg text-slate-600">
@@ -533,6 +534,9 @@ export default function AI_Board_Simulator() {
                         {soloAgent ? <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-lg text-xs truncate max-w-[150px]">1:1 {agents.find(a => a.id === soloAgent)?.name}</span> : "전체 이사회"}
                     </div>
                     <div className="flex gap-2">
+                        <button onClick={() => window.print()} className="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1">
+                            <Download size={16} /> PDF
+                        </button>
                         {pendingContext && (
                             <button onClick={handleGenerateFinalReport} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-md animate-pulse ring-2 ring-green-200">
                                 <CheckCircle2 size={16} /> 승인 및 최종 리포트 생성
@@ -543,7 +547,7 @@ export default function AI_Board_Simulator() {
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-8" ref={chatContainerRef}>
+                <div className="flex-1 overflow-y-auto p-8 print-content" ref={chatContainerRef}>
                     {messages.map((m, i) => {
                         if (m.type === 'system') return <div key={i} className="flex justify-center mb-8"><span className="bg-slate-200/80 backdrop-blur-sm text-slate-600 text-xs px-4 py-1.5 rounded-full">{m.text}</span></div>;
                         if (m.type === 'user') return <UserBubble key={i} message={m.text} files={m.files} />;
@@ -553,7 +557,7 @@ export default function AI_Board_Simulator() {
                     {isProcessing && <div className="text-slate-400 text-sm ml-2 animate-pulse">분석 중...</div>}
                 </div>
 
-                <div className="p-4 bg-white border-t border-slate-200 z-20">
+                <div className="p-4 bg-white border-t border-slate-200 z-20 no-print">
                     {files.length > 0 && <div className="flex gap-2 mb-2 p-2 bg-slate-50 rounded-lg overflow-x-auto">{files.map((f, i) => <div key={i} className="text-xs bg-white border px-2 py-1 rounded flex items-center gap-1"><span className="truncate max-w-[100px]">{f.name}</span><button onClick={() => setFiles(files.filter((_, idx) => idx !== i))}><X size={10} /></button></div>)}</div>}
                     <form onSubmit={handleSendMessage} className="flex gap-3">
                         <input type="file" multiple className="hidden" ref={fileInputRef} onChange={handleFileSelect} accept="image/*,.pdf,audio/*,video/*" />

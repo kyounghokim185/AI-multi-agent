@@ -388,8 +388,8 @@ export default function BusinessPlanPage() {
         <div className="flex h-screen bg-slate-50 font-sans text-slate-900 overflow-hidden">
 
             {/* Configure Panel */}
-            <div className="w-96 bg-white border-r border-slate-200 flex flex-col z-20 shrink-0 overflow-y-auto">
-                {/* ... Header omitted ... */}
+            <div className="w-96 bg-white border-r border-slate-200 flex flex-col z-20 shrink-0 overflow-y-auto no-print">
+                {/* Header */}
                 <div className="p-6 border-b border-slate-100">
                     <Link href="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-600 mb-4 font-bold text-xs">
                         <ArrowLeft size={14} /> 메인으로
@@ -483,7 +483,7 @@ export default function BusinessPlanPage() {
                 </div>
             </div>
 
-            {/* Main Area Code ... (Mostly same as before) */}
+            {/* Main Area Code */}
             <div className="flex-1 flex flex-col bg-slate-100 p-4 md:p-8 overflow-hidden">
                 {/* Render Logic depending on Stage */}
                 {(stage === 'CEO_Review' || stage === 'Done') ? (
@@ -500,6 +500,9 @@ export default function BusinessPlanPage() {
                                 </p>
                             </div>
                             <div className="flex gap-2">
+                                <button onClick={() => window.print()} className="px-4 py-2 bg-white border hover:bg-slate-50 text-slate-600 rounded-lg text-sm font-bold flex items-center gap-2">
+                                    <Download size={16} /> PDF
+                                </button>
                                 {stage === 'CEO_Review' && (
                                     <>
                                         <button onClick={exportToNotion} className="px-4 py-2 bg-white border hover:bg-slate-50 text-slate-600 rounded-lg text-sm font-bold">노션 복사</button>
@@ -521,7 +524,7 @@ export default function BusinessPlanPage() {
                         </div>
 
                         {/* Document Preview */}
-                        <div className="flex-1 overflow-y-auto p-8 prose prose-slate max-w-none bg-white">
+                        <div className="flex-1 overflow-y-auto p-8 prose prose-slate max-w-none bg-white print-content">
                             <div className="whitespace-pre-wrap font-serif text-slate-700 leading-relaxed">{finalDoc}</div>
                         </div>
 
