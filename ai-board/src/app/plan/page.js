@@ -173,7 +173,7 @@ export default function BusinessPlanPage() {
     // --- Core Workflow Logic ---
     const startSimulation = async () => {
         if (!idea.trim()) return alert("사업 아이디어를 입력해주세요.");
-        if (!apiKey) return alert("Claude API Key가 필요합니다.");
+        // if (!apiKey) return alert("Claude API Key가 필요합니다."); // Uses server-side key if missing
 
         setIsRunning(true);
         setLogs([]);
