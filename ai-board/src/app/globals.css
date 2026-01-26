@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.font-nanum {
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 20mm;
+  }
+
+  body {
+    background: white;
+    color: black;
+    overflow: visible !important;
+  }
+
+  /* Hide UI elements */
+  .no-print,
+  button,
+  aside,
+  nav,
+  .sidebar,
+  .toast {
+    display: none !important;
+  }
+
+  /* Layout resets for printing */
+  .print-content {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: white !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Ensure text wrapping and readability */
+  .prose {
+    max-width: 100% !important;
+  }
+}
