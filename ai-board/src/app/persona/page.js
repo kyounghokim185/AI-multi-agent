@@ -436,7 +436,7 @@ export default function AI_Board_Simulator() {
     };
 
     return (
-        <div className="flex h-[100dvh] bg-slate-50 font-sans text-slate-900 overflow-hidden">
+        <div className="flex bg-slate-50 font-sans text-slate-900 overflow-hidden md:h-screen h-[111dvh] md:scale-100 scale-90 origin-top">
             {/* Sidebar (Desktop) - Add no-print */}
             <div className="w-80 bg-white border-r border-slate-200 flex flex-col z-20 shrink-0 hidden md:flex no-print">
                 <div className="p-6 border-b border-slate-100 flex flex-col gap-4">
