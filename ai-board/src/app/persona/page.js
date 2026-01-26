@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, User, Shield, Server, TrendingUp, Zap, Coffee, Armchair, Send, Settings, CheckCircle2, XCircle, Lock, FileText, Sparkles, Handshake, Briefcase, Gamepad2, Palette, Wallet, Baby, Newspaper, Heart, Plus, Pencil, Trash2, Download, Paperclip, X, MessageSquare, Users2 } from 'lucide-react';
+import { ArrowLeft, User, Shield, Server, TrendingUp, Zap, Coffee, Armchair, Send, Settings, CheckCircle2, XCircle, Lock, FileText, Sparkles, Handshake, Briefcase, Gamepad2, Palette, Wallet, Baby, Newspaper, Heart, Plus, Pencil, Trash2, Download, Paperclip, X, MessageSquare, Users2, Copy } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -436,7 +436,7 @@ export default function AI_Board_Simulator() {
     };
 
     return (
-        <div className="flex h-screen bg-slate-50 font-sans text-slate-900 overflow-hidden">
+        <div className="flex h-[100dvh] bg-slate-50 font-sans text-slate-900 overflow-hidden">
             {/* Sidebar (Desktop) - Add no-print */}
             <div className="w-80 bg-white border-r border-slate-200 flex flex-col z-20 shrink-0 hidden md:flex no-print">
                 <div className="p-6 border-b border-slate-100 flex flex-col gap-4">
@@ -525,25 +525,29 @@ export default function AI_Board_Simulator() {
 
             {/* Main Chat */}
             <div className="flex-1 flex flex-col h-full bg-slate-100 relative">
-                <div className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-6 shadow-sm z-10 no-print">
+                <div className="min-h-[4rem] h-auto py-2 bg-white border-b border-slate-200 flex flex-wrap gap-2 items-center justify-between px-4 md:px-6 shadow-sm z-10 no-print">
                     <div className="font-bold text-slate-700 flex items-center gap-2">
                         {/* Mobile Menu Button */}
-                        <button onClick={() => setShowMobileMenu(true)} className="md:hidden mr-2 p-2 bg-slate-100 rounded-lg text-slate-600">
+                        <button onClick={() => setShowMobileMenu(true)} className="md:hidden mr-1 p-2 bg-slate-100 rounded-lg text-slate-600">
                             <Users2 size={20} />
                         </button>
-                        {soloAgent ? <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-lg text-xs truncate max-w-[150px]">1:1 {agents.find(a => a.id === soloAgent)?.name}</span> : "전체 이사회"}
+                        {soloAgent ? <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-lg text-xs truncate max-w-[120px] md:max-w-[200px]">1:1 {agents.find(a => a.id === soloAgent)?.name}</span> : <span className="truncate">전체 이사회</span>}
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-1 md:gap-2">
                         <button onClick={() => window.print()} className="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1">
-                            <Download size={16} /> PDF
+                            <Download size={16} /> <span className="hidden md:inline">PDF</span>
                         </button>
                         {pendingContext && (
-                            <button onClick={handleGenerateFinalReport} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-md animate-pulse ring-2 ring-green-200">
-                                <CheckCircle2 size={16} /> 승인 및 최종 리포트 생성
+                            <button onClick={handleGenerateFinalReport} className="bg-green-600 hover:bg-green-700 text-white px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-bold flex items-center gap-2 shadow-md animate-pulse ring-2 ring-green-200">
+                                <CheckCircle2 size={16} /> <span className="hidden md:inline">승인 및 리포트</span><span className="md:hidden">승인</span>
                             </button>
                         )}
-                        <button onClick={exportToNotion} className="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-sm font-bold">노션 복사</button>
-                        <button onClick={() => setShowSettings(true)} className="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-sm font-bold">설정</button>
+                        <button onClick={exportToNotion} className="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1">
+                            <Copy size={16} /> <span className="hidden md:inline">노션 복사</span>
+                        </button>
+                        <button onClick={() => setShowSettings(true)} className="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1">
+                            <Settings size={16} /> <span className="hidden md:inline">설정</span>
+                        </button>
                     </div>
                 </div>
 

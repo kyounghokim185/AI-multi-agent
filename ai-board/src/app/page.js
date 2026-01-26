@@ -14,7 +14,7 @@ export default function LandingPage() {
       <header className="bg-white border-b border-slate-200 py-6 px-8 flex items-center justify-between relative z-10">
         <div className="flex items-center gap-2">
           <Sparkles className="text-orange-600" size={28} />
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent">
+          <h1 className="text-sm md:text-2xl font-bold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent">
             아이파크몰 총무팀 아이디어 검토
           </h1>
         </div>
@@ -27,7 +27,7 @@ export default function LandingPage() {
       <main className="flex-1 flex flex-col items-center justify-center p-8 relative overflow-hidden">
 
         {/* 3D Robot Mascot */}
-        <div className="mb-10 scale-110 hover:scale-125 transition-transform duration-500">
+        <div className="mb-10 w-32 md:w-48 hover:scale-110 transition-transform duration-500">
           <InteractiveRobot />
         </div>
 
