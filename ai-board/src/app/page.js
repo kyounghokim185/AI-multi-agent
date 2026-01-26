@@ -27,7 +27,7 @@ export default function LandingPage() {
       <main className="flex-1 flex flex-col items-center justify-center p-8 relative overflow-hidden">
 
         {/* 3D Robot Mascot */}
-        <div className="mb-10 w-32 md:w-48 hover:scale-110 transition-transform duration-500">
+        <div className="mb-10 w-32 md:w-48 hover:scale-110 transition-transform duration-500 flex justify-center items-center">
           <InteractiveRobot />
         </div>
 

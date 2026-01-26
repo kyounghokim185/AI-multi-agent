@@ -525,27 +525,27 @@ export default function AI_Board_Simulator() {
 
             {/* Main Chat */}
             <div className="flex-1 flex flex-col h-full bg-slate-100 relative">
-                <div className="min-h-[4rem] h-auto py-2 bg-white border-b border-slate-200 flex flex-wrap gap-2 items-center justify-between px-4 md:px-6 shadow-sm z-10 no-print">
-                    <div className="font-bold text-slate-700 flex items-center gap-2">
+                <div className="min-h-[3.5rem] h-auto py-2 bg-white border-b border-slate-200 flex flex-nowrap gap-2 items-center justify-between px-2 md:px-6 shadow-sm z-10 no-print">
+                    <div className="font-bold text-slate-700 flex items-center gap-2 flex-1 min-w-0 overflow-hidden">
                         {/* Mobile Menu Button */}
-                        <button onClick={() => setShowMobileMenu(true)} className="md:hidden mr-1 p-2 bg-slate-100 rounded-lg text-slate-600">
+                        <button onClick={() => setShowMobileMenu(true)} className="md:hidden flex-none mr-1 p-2 bg-slate-100 rounded-lg text-slate-600">
                             <Users2 size={20} />
                         </button>
-                        {soloAgent ? <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-lg text-xs truncate max-w-[120px] md:max-w-[200px]">1:1 {agents.find(a => a.id === soloAgent)?.name}</span> : <span className="truncate">전체 이사회</span>}
+                        {soloAgent ? <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-lg text-xs truncate">1:1 {agents.find(a => a.id === soloAgent)?.name}</span> : <span className="truncate">전체 이사회</span>}
                     </div>
-                    <div className="flex gap-1 md:gap-2">
-                        <button onClick={() => window.print()} className="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1">
+                    <div className="flex gap-1.5 md:gap-2 flex-none">
+                        <button onClick={() => window.print()} className="bg-slate-100 text-slate-600 px-2.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1">
                             <Download size={16} /> <span className="hidden md:inline">PDF</span>
                         </button>
                         {pendingContext && (
-                            <button onClick={handleGenerateFinalReport} className="bg-green-600 hover:bg-green-700 text-white px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-bold flex items-center gap-2 shadow-md animate-pulse ring-2 ring-green-200">
+                            <button onClick={handleGenerateFinalReport} className="bg-green-600 hover:bg-green-700 text-white px-2.5 md:px-4 py-1.5 md:py-2 rounded-xl text-xs md:text-sm font-bold flex items-center gap-2 shadow-md animate-pulse ring-2 ring-green-200">
                                 <CheckCircle2 size={16} /> <span className="hidden md:inline">승인 및 리포트</span><span className="md:hidden">승인</span>
                             </button>
                         )}
-                        <button onClick={exportToNotion} className="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1">
+                        <button onClick={exportToNotion} className="bg-slate-100 text-slate-600 px-2.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1">
                             <Copy size={16} /> <span className="hidden md:inline">노션 복사</span>
                         </button>
-                        <button onClick={() => setShowSettings(true)} className="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1">
+                        <button onClick={() => setShowSettings(true)} className="bg-slate-100 text-slate-600 px-2.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1">
                             <Settings size={16} /> <span className="hidden md:inline">설정</span>
                         </button>
                     </div>
