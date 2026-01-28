@@ -349,7 +349,7 @@ export default function AI_Board_Simulator() {
     const handleSendMessage = async (e) => {
         e.preventDefault();
         if ((!inputText.trim() && files.length === 0) || isProcessing) return;
-        if (!apiKey) return setShowSettings(true);
+        // if (!apiKey) return setShowSettings(true); // SERVER SIDE KEY USE
 
         const curText = inputText;
         const curFiles = [...files];
