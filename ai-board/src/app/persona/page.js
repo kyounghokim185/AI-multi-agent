@@ -170,7 +170,7 @@ const MessageBubble = ({ message, agent }) => {
 const UserBubble = ({ message, files }) => (
     <div className="flex flex-col items-end mb-6 animate-in fade-in slide-in-from-bottom-2">
         <div className="flex items-center gap-2 mb-1">
-            <span className="font-bold text-sm text-gray-800">나 (CEO)</span>
+            <span className="font-bold text-sm text-gray-800">나</span>
         </div>
         <div className="bg-indigo-600 text-white p-4 rounded-2xl rounded-tr-none shadow-md max-w-[85%] text-sm whitespace-pre-wrap leading-relaxed">
             {files && files.length > 0 && (
