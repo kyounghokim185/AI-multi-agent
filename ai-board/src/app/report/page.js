@@ -88,7 +88,7 @@ export default function ReportPage() {
                         <div className="text-center text-slate-400 py-10">
                             <FileText size={48} className="mx-auto mb-4 opacity-20" />
                             <p className="text-sm">저장된 리포트가 없습니다.</p>
-                            <p className="text-xs mt-2">Module A에서 CEO 승인을 받으면<br />이곳에 저장됩니다.</p>
+                            <p className="text-xs mt-2">Module A에서 담당자 승인을 받으면<br />이곳에 저장됩니다.</p>
                         </div>
                     ) : (
                         reports.map(report => (
