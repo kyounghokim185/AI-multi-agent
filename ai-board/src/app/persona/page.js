@@ -56,7 +56,7 @@ const INITIAL_AGENTS = [
     },
     {
         id: 'co_ceo',
-        name: '공동창업자 (Co-CEO)',
+        name: '가상 CEO',
         role: 'Vision & Strategy',
         category: 'Expert',
         iconName: 'Handshake',
@@ -64,7 +64,7 @@ const INITIAL_AGENTS = [
         bgColor: 'bg-indigo-50',
         borderColor: 'border-indigo-200',
         description: '비전 공유 및 멘탈 케어.',
-        systemPrompt: `당신은 사용자의 든든한 공동창업자(Co-CEO)입니다.`
+        systemPrompt: `당신은 사용자의 든든한 가상 CEO입니다.`
     },
     {
         id: 'coo',

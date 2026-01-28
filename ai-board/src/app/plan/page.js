@@ -217,6 +217,9 @@ export default function BusinessPlanPage() {
         // 5. Critic Loop
         setStage('Review');
         setActiveAgent('Critic');
+
+        let critiqueHistory = []; // Capture history for final report
+
         while (loop < 2 && !passed) {
             const criticOutput = await callAgent('Critic', {
                 strategy: currentStrategy,
@@ -230,6 +233,12 @@ export default function BusinessPlanPage() {
             const score = scoreMatch ? parseInt(scoreMatch[1]) : 70;
             setCriticScore(score);
 
+            critiqueHistory.push({
+                round: loop + 1,
+                score: score,
+                critique: criticOutput
+            });
+
             if (score >= 80) {
                 passed = true;
                 addLog('System', `평가 통과! (점수: ${score}점)`);
@@ -237,8 +246,17 @@ export default function BusinessPlanPage() {
                 loop++;
                 setLoopCount(loop);
                 addLog('System', `점수 미달 (${score}점). 재수정 요청 (시도 ${loop}/2).`);
+
                 setActiveAgent('Strategist');
-                currentStrategy = await callAgent('Strategist', { prevStrategy: currentStrategy, feedback: criticOutput }, "심사위원의 비평을 반영하여 전략을 수정하세요.");
+                const revisionPrompt = `심사위원의 비평을 반영하여 전략을 수정하세요.\n[비평 내용]\n${criticOutput}`;
+                currentStrategy = await callAgent('Strategist', { prevStrategy: currentStrategy, feedback: criticOutput }, revisionPrompt);
+
+                critiqueHistory.push({
+                    round: loop,
+                    action: "Revision by Strategist",
+                    content: currentStrategy
+                });
+
                 addLog('Strategist', `(수정본) ${currentStrategy}`);
                 setActiveAgent('Critic');
             }
@@ -247,20 +265,39 @@ export default function BusinessPlanPage() {
         setDraft(prev => ({ ...prev, strategy: currentStrategy, cfo: cfoOutput }));
 
         // 6. Writer
-        generateFinalDoc({ pm: pmOutput, research: researchOutput, strategy: currentStrategy, cfo: cfoOutput, files });
+        generateFinalDoc({ pm: pmOutput, research: researchOutput, strategy: currentStrategy, cfo: cfoOutput, files }, null, critiqueHistory);
     };
 
-    const generateFinalDoc = async (context, feedback = null) => {
+    const generateFinalDoc = async (context, feedback = null, history = []) => {
         setStage('Writing');
         setActiveAgent('Writer');
 
-        let taskPrompt = "모든 내용을 종합하여 완벽한 '예비창업패키지 사업계획서' 초안을 마크다운 형식으로 작성하세요.";
+        let historyText = "";
+        if (history && history.length > 0) {
+            historyText = JSON.stringify(history, null, 2);
+        }
+
+        let taskPrompt = `
+        당신은 최고의 스타트업 전문 테크니컬 라이터입니다.
+        모든 기획 내용, 리서치 결과, 재무 계획, 그리고 [품질 보증(QA) 리뷰 히스토리]를 종합하여
+        '예비창업패키지 사업계획서' 완본을 작성하세요.
+
+        [중요 요구사항]
+        1. **분량**: 기존보다 5배 이상 길고 상세하게 작성하세요. 각 항목을 최대한 구체적으로 서술해야 합니다.
+        2. **상세 내용**: 단순히 요약하지 말고, 실행 가능한 수준의 구체적인 전략, 수치, 방법론을 포함하세요.
+        3. **리뷰 반영 내역 포함**: 심사위원(Critic)이 지적했던 문제점들과 그에 대한 수정/보완 내역을 '별첨' 또는 'QA 히스토리' 섹션에 상세히 기술하세요. (점수가 낮았던 이유와 극복 과정 포함)
+        4. **형식**: 전문적인 마크다운 형식 (H1, H2, H3, Bullet points, Table 등 활용).
+
+        [Review History (Reference)]
+        ${historyText}
+        `;
+
         if (feedback) {
-            taskPrompt += `\n[CEO 피드백 반영 사항]\n${feedback}\n위 피드백을 반영하여 내용을 수정 보완하세요.`;
+            taskPrompt += `\n\n[CEO 추가 피드백]\n${feedback}\n위 피드백을 반드시 반영하여 내용을 수정 보완하세요.`;
         }
 
         const finalOutput = await callAgent('Writer', context, taskPrompt);
-        addLog('Writer', feedback ? "CEO 피드백을 반영하여 수정 완료하였습니다." : "초안 작성이 완료되었습니다.");
+        addLog('Writer', feedback ? "CEO 피드백을 반영하여 수정 완료하였습니다." : "상세 사업계획서 작성이 완료되었습니다.");
 
         setFinalDoc(finalOutput);
         setStage('CEO_Review');
