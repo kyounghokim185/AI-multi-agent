@@ -40,6 +40,27 @@ body {
     background: white;
     color: black;
     overflow: visible !important;
+    height: auto !important;
+  }
+
+  /* Reset all containers to allow flow */
+  html,
+  body,
+  div,
+  main,
+  section,
+  article {
+    height: auto !important;
+    overflow: visible !important;
+    position: static !important;
+  }
+
+  /* Specifically target the app wrapper */
+  #__next,
+  div[class*="flex-col"] {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   /* Hide UI elements */
