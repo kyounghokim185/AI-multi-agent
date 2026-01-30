@@ -33,61 +33,52 @@ body {
 @media print {
   @page {
     size: A4;
-    margin: 20mm;
+    margin: 10mm;
   }
 
   body {
     background: white;
     color: black;
-    overflow: visible !important;
-    height: auto !important;
   }
 
-  /* Reset all containers to allow flow */
   html,
-  body,
-  div,
-  main,
-  section,
-  article {
-    height: auto !important;
-    overflow: visible !important;
-    position: static !important;
-  }
-
-  /* Specifically target the app wrapper */
-  #__next,
-  div[class*="flex-col"] {
-    display: block !important;
+  body {
     height: auto !important;
     overflow: visible !important;
   }
 
-  /* Hide UI elements */
-  .no-print,
-  button,
-  aside,
-  nav,
-  .sidebar,
-  .toast {
-    display: none !important;
+  /* Hide everything by default */
+  body * {
+    visibility: hidden;
   }
 
-  /* Layout resets for printing */
+  /* Only show the print content and its children */
+  .print-content,
+  .print-content * {
+    visibility: visible;
+  }
+
+  /* Position the content to fill the page, ignoring parent layout */
   .print-content {
-    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
     width: 100% !important;
-    height: auto !important;
-    overflow: visible !important;
-    padding: 0 !important;
+    max-width: 100% !important;
     margin: 0 !important;
+    padding: 0 !important;
     background: white !important;
     box-shadow: none !important;
-    border: none !important;
+    overflow: visible !important;
   }
 
   /* Ensure text wrapping and readability */
   .prose {
     max-width: 100% !important;
+  }
+
+  /* Hide specific UI elements explicitly just in case */
+  .no-print {
+    display: none !important;
   }
 }
